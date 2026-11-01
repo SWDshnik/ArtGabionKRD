@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GabionArt — Габионы и берегоукрепление в Краснодарском крае</title>
+<style>
+:root { --bg: #0f0f0f; --bg3: #1d1d1d; --text: #ececec; --muted: #9a9a9a; --orange: #ff6b1a; --green: #2ecc71; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+.container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+h1, h2, h3, h4 { text-transform: uppercase; letter-spacing: 0.5px; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+.btn { display: inline-block; padding: 14px 28px; border-radius: 10px; font-weight: 600; cursor: pointer; text-align: center; border: none; transition: 0.2s; }
+.btn-o { background: linear-gradient(135deg, var(--orange), #ff8a3d); color: #111; }
+.btn-o:hover { transform: translateY(-2px); }
+.btn-g { background: transparent; color: #fff; border: 1px solid #444; }
+.btn-g:hover { border-color: var(--orange); color: var(--orange); }
+
+/* Шапка и логотип */
+.header { background: #111; padding: 15px 0; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
+.header .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+.logo { display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 700; font-family: 'Oswald', sans-serif; color: #fff; text-decoration: none; }
+.logo img { height: 40px; width: auto; border-radius: 6px; transition: transform 0.3s ease; }
+.logo:hover img { transform: scale(1.05); }
+.logo span { color: var(--orange); }
+
+.nav a { margin-left: 20px; font-size: 15px; color: #ccc; transition: 0.2s; }
+.nav a:hover { color: var(--orange); }
+.phone { font-weight: 600; color: var(--orange); font-size: 16px; }
+
+.hero { padding: 70px 0; background: linear-gradient(180deg, #1a1a1a, #0f0f0f); }
+.hero h1 { font-size: clamp(28px, 5vw, 42px); margin-bottom: 20px; line-height: 1.2; }
+.hero p { font-size: 18px; color: var(--muted); max-width: 650px; margin-bottom: 30px; }
+.hero-actions { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 40px; }
+.stats { display: flex; gap: 40px; flex-wrap: wrap; }
+.stat b { display: block; font-size: 30px; color: var(--orange); font-family: 'Oswald', sans-serif; }
+.stat span { font-size: 14px; color: var(--muted); text-transform: uppercase; }
+
+.section { padding: 70px 0; }
+.section-dark { background: #161616; }
+.section-title { font-size: 30px; margin-bottom: 15px; font-family: 'Oswald', sans-serif; }
+.section-sub { color: var(--muted); margin-bottom: 40px; max-width: 700px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.card { background: var(--bg3); padding: 25px; border-radius: 12px; border: 1px solid #2a2a2a; transition: 0.3s; }
+.card:hover { border-color: var(--orange); transform: translateY(-3px); }
+.card h3 { font-size: 18px; margin-bottom: 10px; color: #fff; font-family: 'Oswald', sans-serif; }
+.card p { font-size: 14.5px; color: var(--muted); }
+
+.calc-box { background: var(--bg3); padding: 25px; border-radius: 12px; border: 1px solid #333; }
+.calc-box label { display: block; font-size: 13px; color: #aaa; margin-bottom: 5px; }
+.calc-box select, .calc-box input { width: 100%; padding: 12px; border-radius: 8px; background: #111; border: 1px solid #333; color: #fff; margin-bottom: 15px; font-size: 16px; outline: none; }
+.calc-box select:focus, .calc-box input:focus { border-color: var(--orange); }
+.calc-result { background: rgba(46,204,113,0.1); border: 1px solid rgba(46,204,113,0.3); padding: 20px; border-radius: 8px; text-align: center; }
+.calc-result b { display: block; font-size: 28px; color: #fff; margin-top: 5px; font-family: 'Oswald', sans-serif; }
+
+/* Блок с работами */
+.work-card { padding: 0; overflow: hidden; height: 250px; background-size: cover; background-position: center; position: relative; background-color: #222; }
+.work-card div { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.9)); padding: 20px 15px 15px; }
+.work-card h3 { font-size: 18px; margin-bottom: 5px; color: #fff; font-family: 'Oswald', sans-serif; margin: 0; }
+.work-card p { font-size: 14px; color: #ccc; margin: 0; }
+
+.step-num { font-size: 32px; color: var(--orange); font-weight: 700; font-family: 'Oswald', sans-serif; margin-bottom: 10px; }
+.note-box { margin-top: 25px; padding: 20px; background: rgba(255,107,26,0.08); border-left: 4px solid var(--orange); border-radius: 8px; }
+.note-box h4 { color: var(--orange); margin-bottom: 5px; font-family: 'Oswald', sans-serif; }
+.note-box p { font-size: 14.5px; color: #ccc; margin: 0; }
+
+.footer { padding: 30px 0; border-top: 1px solid #222; text-align: center; color: var(--muted); font-size: 14px; }
+
+@media (max-width: 768px) {
+  .nav { display: none; }
+  .hero h1 { font-size: 28px; }
+  .section { padding: 50px 0; }
+  .stats { gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <a href="#" class="logo">
+      <img src="7.jpg" alt="Логотип GabionArt">
+      <span>GabionArt</span>
+    </a>
+    
+    <nav class="nav">
+      <a href="#services">Услуги</a>
+      <a href="#process">Технология</a>
+      <a href="#works">Работы</a>
+      <a href="#calc">Цены</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <a href="tel:+79069000011" class="phone">+7 (906) 900-00-11</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Установка габионов и берегоукрепление <br><span style="color:var(--orange)">в Краснодарском крае</span></h1>
+    <p>5 лет успешных работ в горах Кавказа. Строим подпорные стены, укрепляем берега и склоны по ГОСТ с расчётом нагрузки. Гарантия на конструкцию 2 года. Выезд на замер — бесплатно.</p>
+    <div class="hero-actions">
+      <a href="#calc" class="btn btn-o">Рассчитать стоимость</a>
+      <a href="#contact" class="btn btn-g">Связаться с нами</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>5 лет</b><span>опыт работы</span></div>
+      <div class="stat"><b>100%</b><span>по ГОСТ</span></div>
+      <div class="stat"><b>2 года</b><span>гарантия</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="services">
+  <div class="container">
+    <h2 class="section-title">Наши услуги</h2>
+    <p class="section-sub">Полный цикл работ в Краснодаре, Сочи, Анапе, Геленджике и по всему краю.</p>
+    <div class="grid">
+      <div class="card"><h3>Установка габионов</h3><p>Заборы, подпорные стены, ландшафт. Сетка двойной крутки, качественный камень.</p></div>
+      <div class="card"><h3>Берегоукрепление</h3><p>Защита берегов рек и прудов от размыва. Габионы и «Террамеш».</p></div>
+      <div class="card"><h3>Подпорные стены</h3><p>Укрепление откосов и склонов с высоким уровнем грунтовых вод.</p></div>
+      <div class="card"><h3>Укрепление склонов</h3><p>Предотвращение оползней и эрозии. Расчёт дренажа и нагрузки.</p></div>
+      <div class="card"><h3>Декоративные габионы</h3><p>Мебель, клумбы, зоны барбекю. Галька, ракушечник, песчаник.</p></div>
+      <div class="card"><h3>Проектирование</h3><p>Инженерные расчёты устойчивости конструкций для любых грунтов.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark" id="process">
+  <div class="container">
+    <h2 class="section-title">Как мы работаем: технология и этапы</h2>
+    <p class="section-sub">Мы выполняем работы по СП 422.1325800.2018, обеспечивая устойчивость конструкции и правильный водоотвод.</p>
+    <div class="grid">
+      <div class="card"><div class="step-num">01</div><h3>Подготовка основания</h3><p>Выравниваем и уплотняем грунт. Укладываем слой пескоцементной смеси (до 100 мм) или устраиваем обратный фильтр из геотекстиля.</p></div>
+      <div class="card"><div class="step-num">02</div><h3>Сборка и установка</h3><p>Раскладываем и связываем секции сетки двойного кручения. Устанавливаем их в проектное положение, строго соблюдая геометрию.</p></div>
+      <div class="card"><div class="step-num">03</div><h3>Заполнение камнем</h3><p>Заполняем конструкции природным камнем фракции 125–250 мм вручную. Лицевую грань выкладываем особенно тщательно, подгоняя камни.</p></div>
+      <div class="card"><div class="step-num">04</div><h3>Установка крышек</h3><p>Закрываем крышки, натягиваем их и надежно привязываем к боковинам и диафрагмам для максимальной прочности.</p></div>
+    </div>
+    <div class="note-box">
+      <h4>Особенности берегоукрепления</h4>
+      <p>В зонах затопления мы применяем матрацы Рено (плоские габионы) и анкерное крепление к основанию. Это предотвращает смещение конструкции при высоком уровне воды.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="works">
+  <div class="container">
+    <h2 class="section-title">Наши работы</h2>
+    <p class="section-sub">Объекты в Краснодарском крае и горах Кавказа.</p>
+    <div class="grid">
+      <div class="card work-card" style="background-image: url('1.jpg');">
+        <div><h3>Берегоукрепление</h3><p>Краснодарский край</p></div>
+      </div>
+      <div class="card work-card" style="background-image: url('2.jpg');">
+        <div><h3>Подпорная стена</h3><p>Горы Кавказа</p></div>
+      </div>
+      <div class="card work-card" style="background-image: url('3.jpg');">
+        <div><h3>Укрепление склона</h3><p>Сочи</p></div>
+      </div>
+      <div class="card work-card" style="background-image: url('4.jpg');">
+        <div><h3>Габионный забор</h3><p>Анапа</p></div>
+      </div>
+      <div class="card work-card" style="background-image: url('5.jpg');">
+        <div><h3>Укрепление берега</h3><p>Геленджик</p></div>
+      </div>
+      <div class="card work-card" style="background-image: url('6.jpg');">
+        <div><h3>Декоративный габион</h3><p>Краснодар</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark" id="calc">
+  <div class="container">
+    <h2 class="section-title">Калькулятор стоимости</h2>
+    <p class="section-sub">Выберите тип работ и укажите объём — узнайте примерную стоимость.</p>
+    <div class="grid">
+      <div class="calc-box">
+        <label>Тип работ</label>
+        <select id="calcType">
+          <option value="30000">Установка габионов (от 30 000 ₽/м³)</option>
+          <option value="10000">Берегоукрепление (от 10 000 ₽/м.п.)</option>
+        </select>
+        <label>Объём (количество)</label>
+        <input type="number" id="calcQty" value="1" min="1">
+        <div class="calc-result">
+          Примерная стоимость:
+          <b id="calcResult">30 000 ₽</b>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="color: var(--orange); margin-bottom: 15px;">Прайс-лист</h3>
+        <p style="margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 10px;">Установка габионов — <b style="float: right; color: #fff;">от 30 000 ₽</b></p>
+        <p style="margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 10px;">Берегоукрепление — <b style="float: right; color: #fff;">от 30 000 ₽</b></p>
+        <p style="margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 10px;">Подпорные стены — <b style="float: right; color: #fff;">от 30 000 ₽</b></p>
+        <p style="margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 10px;">Укрепление склонов — <b style="float: right; color: #fff;">от 30 000 ₽</b></p>
+        <p style="color: var(--green); font-weight: 600; margin-top: 10px;">Выезд на замер — Бесплатно</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="container">
+    <h2 class="section-title">Контакты</h2>
+    <p class="section-sub">Перезвоним в течение 15 минут по Краснодарскому краю.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>Телефон</h3>
+        <p style="font-size: 20px; color: var(--orange); font-weight: 600;"><a href="tel:+79069000011">+7 (906) 900-00-11</a></p>
+        <p style="margin-top: 10px; color: #aaa;">WhatsApp / Telegram</p>
+      </div>
+      <div class="card">
+        <h3>E-mail</h3>
+        <p style="font-size: 20px; color: var(--orange); font-weight: 600;"><a href="mailto:gabionart@mail.ru">gabionart@mail.ru</a></p>
+      </div>
+      <div class="card">
+        <h3>География</h3>
+        <p style="font-size: 20px; color: var(--orange); font-weight: 600;">Краснодарский край</p>
+        <p style="margin-top: 10px; color: #aaa;">Пн–Сб: 9:00–20:00</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p>© 2024 GabionArt. Все права защищены. Краснодарский край.</p>
+  </div>
+</footer>
+
+<script>
+document.getElementById('calcType').addEventListener('change', calc);
+document.getElementById('calcQty').addEventListener('input', calc);
+function calc() {
+  const price = parseInt(document.getElementById('calcType').value);
+  const qty = parseInt(document.getElementById('calcQty').value) || 1;
+  document.getElementById('calcResult').textContent = (price * qty).toLocaleString('ru-RU') + ' ₽';
+}
+</script>
+
+</body>
+</html>
